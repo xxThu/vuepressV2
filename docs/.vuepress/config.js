@@ -8,7 +8,6 @@ export default defineUserConfig({
 
   title: 'BrightSpace',
   description: 'BrightSpace Site',
-
   theme: defaultTheme({
     logo: 'https://vuejs.press/images/hero.png',
     socialLinks: [
