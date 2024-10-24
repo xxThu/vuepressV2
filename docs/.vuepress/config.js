@@ -5,7 +5,7 @@ import { text } from 'express'
 
 export default defineUserConfig({
   lang: 'en-US',
-  base: 'vuepressV2',
+  base: '/vuepressV2/',
   title: 'BrightSpace',
   description: 'BrightSpace Site',
   theme: defaultTheme({
