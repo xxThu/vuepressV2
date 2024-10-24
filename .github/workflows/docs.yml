@@ -41,7 +41,8 @@ jobs:
           # 部署到 gh-pages 分支
           target_branch: gh-pages
           # VuePress 默认的输出目录
-          build_dir: docs/.vuepress/dist
+          build_dir: ./docs/.vuepress/dist
+          force_orphan: true
         env:
           # 参见 https://docs.github.com/en/actions/reference/authentication-in-a-workflow#about-the-github_token-secret
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
