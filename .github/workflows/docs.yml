@@ -39,3 +39,7 @@ jobs:
           build_dir: docs/.vuepress/dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+      - name: Create .nojekyll file to disable Jekyll
+        run: echo > docs/.vuepress/dist/.nojekyll
+        
