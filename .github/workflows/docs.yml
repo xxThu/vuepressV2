@@ -1,45 +1,47 @@
-name: Deploy VuePress to GitHub Pages
+
+name: Deploy Docs
 
 on:
   push:
     branches:
+      # make sure this is the branch you are using
       - main
 
-jobs:
-  build-deploy:
-    runs-on: ubuntu-latest
+permissions:
+  contents: write
 
+jobs:
+  deploy-gh-pages:
+    runs-on: ubuntu-latest
     steps:
-      # Step 1: Checkout the repository
-      - name: Checkout the code
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          # if your docs needs submodules, uncomment the following line
+          # submodules: true
 
-      # Step 2: Setup Node.js environment
+
+
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
-          node-version: '20'  # or the version you prefer
-          cache: 'npm'
+          node-version: 20
+          cache: npm
 
-      # Step 3: Install dependencies
-      - name: Install dependencies
-        run: npm install
+      - name: Install Deps
+        run: npm ci
 
-      # Step 4: Build the VuePress site
-      - name: Build VuePress site
-        run: npm run docs:build
-
-      # Step 5: Deploy to GitHub Pages
-      - name: Deploy to GitHub Pages
-        uses: crazy-max/ghaction-github-pages@v4
-        with:
-          target_branch: gh-pages
-          build_dir: docs/.vuepress/dist
+      - name: Build Docs
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
-      - name: Create .nojekyll file to disable Jekyll
-        run: echo > docs/.vuepress/dist/.nojekyll
-        
+          NODE_OPTIONS: --max_old_space_size=8192
+        run: |-
+          npm run docs:build
+          > docs/.vuepress/dist/.nojekyll
+
+      - name: Deploy Docs
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          # This is the branch where the docs are deployed to
+          branch: gh-pages
+          folder: docs/.vuepress/dist
